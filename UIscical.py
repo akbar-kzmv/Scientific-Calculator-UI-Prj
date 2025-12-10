@@ -10,7 +10,7 @@ maintitle = Label(text="Scientific Calculator", font=("Arial", 10), background=b
 maintitle.pack(side="top")
 ent = Label(display, text="", font=("Arial", 30), bg=displayColor, anchor="w")
 ent.place(anchor="nw")
-ans = Label(display, text="67", font=("Arial", 30), bg=displayColor, anchor="e")
+ans = Label(display, text="", font=("Arial", 30), bg=displayColor, anchor="e")
 ans.place(relx=1, rely=1, anchor="se", width=540)
 center = Frame(app, width=555, height=500)
 center.place(x=50, y=275)
@@ -94,6 +94,39 @@ def wrnine():
 
 ninebt = Button(center, text="9", font=("Arial", 22), bg="black", foreground="white", width=4, command=wrnine)
 ninebt.place(x=192, y=220)
+
+#+
+def plus():
+    current = ent.cget("text")
+    ent.config(text=current + "+")
+
+plusbt = Button(center, text="+", font=("Arial", 22), bg="black", foreground="white", width=4, command=plus)
+plusbt.place(x=282, y=360)
+
+#-
+def minus():
+    current = ent.cget("text")
+    ent.config(text=current + "-")
+
+minusbt = Button(center, text="-", font=("Arial", 22), bg="black", foreground="white", width=4, command=minus)
+minusbt.place(x=372, y=360)
+
+#*
+def multi():
+    current = ent.cget("text")
+    ent.config(text=current + "*")
+
+minusbt = Button(center, text="x", font=("Arial", 22), bg="black", foreground="white", width=4, command=multi)
+minusbt.place(x=282, y=290)
+
+#=
+def result():
+    current = ent.cget("text")
+    res = eval(current)
+    ans.config(text=f"{res}")
+
+resultbt = Button(center, text="=", font=("Arial", 22), bg="black", foreground="white", width=4, command=result)
+resultbt.place(x=102, y=430)
 
 app.configure(bg=backColor)
 app.geometry("650x800")
