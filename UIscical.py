@@ -9,12 +9,12 @@ display = Frame(app, bg=displayColor, width=555, height=230)
 display.place(x=50, y=20)
 maintitle = Label(text="Scientific Calculator", font=("Arial", 13), background=backColor, foreground="red")
 maintitle.pack(side="top")
-ent = Entry(display, font=("Arial", 30), bg=displayColor, foreground="black", insertbackground="black", insertwidth=3)
+ent = Entry(display, font=("Arial", 30), bg=displayColor, foreground="black", width=555, insertbackground="black", insertwidth=3, bd=0)
 ent.focus_set()
 ent.place(anchor="nw")
 ans = Label(display, text="", font=("Arial", 30), bg=displayColor, anchor="e")
 ans.place(relx=1, rely=1, anchor="se", width=540)
-center = Frame(app, width=555, height=500)
+center = Frame(app, bg=backColor, width=555, height=500)
 center.place(x=50, y=275)
 
 #0
@@ -28,14 +28,14 @@ zerobt.place(x=12, y=430)
 #leftcursor
 def cursor_left():
     ent.icursor(ent.index(INSERT) - 1)
-leftbt = Button(center, text="LF", font=("Arial", 22), bg="black", foreground="white", width=4, command=cursor_left)
-leftbt.place(x=460, y=430)
+leftbt = Button(center, text="←", font=("Arial", 22), bg="black", foreground="white", width=4, command=cursor_left)
+leftbt.place(x=197, y=0)
 
 #rightcursor
 def cursor_right():
     ent.icursor(ent.index(INSERT) + 1)
-rightbt = Button(center, text="LR", font=("Arial", 22), bg="black", foreground="white", width=4, command=cursor_right)
-rightbt.place(x=460, y=370)
+rightbt = Button(center, text="→", font=("Arial", 22), bg="black", foreground="white", width=4, command=cursor_right)
+rightbt.place(x=277, y=0)
 
 #1
 def wrone():
@@ -133,14 +133,24 @@ def multi():
 multibt = Button(center, text="x", font=("Arial", 22), bg="black", foreground="white", width=4, command=multi)
 multibt.place(x=282, y=290)
 
+#/
+def division():
+    pos = ent.index(INSERT)
+    ent.insert(pos, "/")
+
+dividebt = Button(center, text="÷", font=("Arial", 22), bg="black", foreground="white", width=4, command=division)
+dividebt.place(x=372, y=290)
+
 #=
 def result():
     try:
-        current = ent.cget("text")
+        current = ent.get()
         res = eval(current)
         ans.config(text=f"{res}", foreground="black")
-    except Exception:
-        ans.config(text="Enter a true value", foreground=dangColor)
+    except (SyntaxError, TypeError):
+        ans.config(text="Write problem correctly", foreground=dangColor)
+    except ZeroDivisionError:
+        ans.config(text="Cannot divide by Zero!", foreground=dangColor)
 
 resultbt = Button(center, text="=", font=("Arial", 22), bg="black", foreground="white", width=4, command=result)
 resultbt.place(x=102, y=430)
@@ -185,7 +195,7 @@ dotbt = Button(center, text=".", font=("Arial", 22), bg="black", foreground="whi
 dotbt.place(x=372, y=430)
 
 def block(k):
-    return "Block!"
+    return "break"
 ent.bind("<Key>", block)
 
 app.configure(bg=backColor)
